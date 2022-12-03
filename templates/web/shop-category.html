@@ -1,0 +1,268 @@
+{% extends 'web/partials/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <!-- mobile fix menu start -->
+    <div class="mobile-menu d-md-none d-block mobile-cart">
+        <ul>
+            <li class="active">
+                <a href="/">
+                    {% comment %} <i class="iconly-Home icli"></i> {% endcomment %}
+                    <span class="material-symbols-outlined">
+                        home
+                        </span>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <li class="mobile-category">
+                <a href="javascript:void(0)">
+                    {% comment %} <i class="iconly-Category icli js-link"></i> {% endcomment %}
+                    <span class="material-symbols-outlined">
+                        category
+                        </span>
+                    <span>Category</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'user:search' %}" class="search-box">
+                    {% comment %} <i class="iconly-Search icli"></i> {% endcomment %}
+                    <span class="material-symbols-outlined">
+                        search
+                        </span>
+                    <span>Search</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'user:viewwishlist' %}">
+                    {% comment %} <i class="iconly-Heart icli"></i> {% endcomment %}
+                    <span class="material-symbols-outlined">
+                        favorite
+                        </span>
+                    <span>My Wish</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'user:viewcart' %}">
+                    {% comment %} <i class="iconly-Bag-2 icli fly-cate"></i> {% endcomment %}
+                    <span class="material-symbols-outlined">
+                        shopping_cart
+                        </span>
+                    <span>Cart</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- mobile fix menu end -->
+
+    <!-- Breadcrumb Section Start -->
+    <section class="breadscrumb-section pt-0">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadscrumb-contain">
+                        <h2>Shop Your Favourite</h2>
+                        {% comment %} <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <i class="fa fa-2x fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                            </ol>
+                        </nav> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+  
+    <!-- Poster Section End -->
+
+    <!-- Shop Section Start -->
+    <section class="section-b-space shop-section ">
+        <div class="container-fluid-lg">
+            <div class="row">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-info">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="row g-sm-4 g-3 product-list-section mt-3">
+                        {% for pro in subcategory %}
+                        {% for product in pro.get_products%}
+                        <div class="col-lg-4 col-6 px-0">                                       
+                                        <div class="product-box" style="border-right:0px;">
+                                            <div class="product-image">
+                                                <a href={% url 'user:product' product.id %}>
+                                                    <img src="{{product.image.url}}"
+                                                            class="img-fluid blur-up lazyload" alt="">
+                                                </a>
+                                                <ul class="product-option">
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="View">
+                                                                <a href="{% url 'user:product' product.id %}">
+                                                                    <i data-feather="eye"></i>
+                                                            </a>
+                                                    </li>
+                                                    <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                title="Wishlist">
+                                                        <a href="{% url 'user:addtowishlist' product.id %}">
+                                                            <i data-feather="heart"></i>
+                                                        </a>
+                                                        </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-detail">
+                                                <a href={% url 'user:product' product.id %}>
+                                                            <h6 class="name">{{product.product}}</h6>
+                                                </a>
+                                                <h5 class="sold text-content">
+                                                    {% if product.offer_price %}
+                                                        <span class="theme-color price">Rs {{product.offer_price}}</span>
+                                                            <del>{{product.price}}</del>
+                                                    {% else %}
+                                                    <span class="theme-color price">Rs {{product.price}}</span>
+                                                    {% endif %}
+                                                </h5>
+                                               
+                                                <div class="add-to-cart-box">
+                                                    {% if product.quantity > 0 %}
+                                                    <a href="{% url 'user:addtocart' product.id %}">
+                                                        <button class="btn btn-add-cart">Add To Cart</button>
+                                                    </a>  
+                                                    {% else %} 
+                                                    <a>
+                                                        <button class="btn btn-add-cart">Out Of Stock </button>
+                                                    </a>  
+                                                    {% endif %}                                   
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                        {% endfor %}
+                        {% endfor %}
+                        </div>
+
+
+
+
+
+
+
+
+                    {% comment %} <div class="row g-sm-4 g-3 product-list-section mt-3">
+                        {% for sub in subcategory %}
+                        {% for product in sub.get_products %}
+                        <div class="col-lg-4 col-6 px-0">
+                            <div class="product-box" style="border-right:0px;">
+                                
+                                    <div class="product-image">
+                                        <a href="{% url 'user:product' product.id %}">
+                                            <img src={{product.image.url}}
+                                                class="img-fluid blur-up lazyload" alt="">
+                                        </a>
+                                        <ul class="product-option">
+                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="View">
+                                                <a href="{% url 'user:product' product.id %}">
+                                                    <i data-feather="eye"></i>
+                                                </a>
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                                                <a href="{% url 'user:addtowishlist' product.id %}" class="notifi-wishlist">
+                                                    <i data-feather="heart"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                
+                                    <div class="product-detail">
+                                        <span class="span-name">Vegetable</span>
+                                        <a href="{% url 'user:product' product.id %}">
+                                            <h5 class="name">{{product.product}}</h5>
+                                        </a>
+                                        <p class="text-content mt-1 mb-2 product-content"></p>
+                                        
+                                        <h6 class="unit">250 ml</h6>
+                                        <h5 class="price"><span class="theme-color">{{product.price}}</span> <del>{{product.offer_price}}</del>
+                                        </h5>
+                                        <div class="add-to-cart-box bg-white">
+                                            <a href="{% url 'user:addtocart' product.id %}" <button class="btn btn-add-cart addcart-button">Add to cart
+                                               
+                                            </button>
+                                          
+                                        </div>
+                                    </div>
+                               
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                    </div> {% endcomment %}
+                    <nav class="custome-pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-disabled="true">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="javascript:void(0)">1</a>
+                            </li>
+                            <li class="page-item" aria-current="page">
+                                <a class="page-link" href="javascript:void(0)">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% comment %} </div> {% endcomment %}
+            </div>
+        </div>
+    </section>
+    <!-- Shop Section End -->
+
+
+
+    
+
+    <!-- Add to cart Modal Start -->
+    {% comment %} <div class="add-cart-box">
+        <div class="add-iamge">
+            <img src="https://themes.pixelstrap.com/fastkart/assets/images/cake/pro/1.jpg"
+                class="img-fluid blur-up lazyload" alt="">
+        </div>
+
+        <div class="add-contain">
+            <h6>Added to Cart</h6>
+        </div>
+    </div> {% endcomment %}
+    <!-- Add to cart Modal End -->
+
+  
+
+   
+
+<!-- shop-left-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Nov 2022 10:09:25 GMT -->
+
+</html>
+
+
+{% endblock %}
